@@ -1,6 +1,7 @@
 library 'LEAD'
 pipeline {
   agent none
+  triggers { pollSCM('H * * * *') }
   stages {
     stage('Build') {
       agent {
