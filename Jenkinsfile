@@ -1,7 +1,6 @@
 library 'LEAD'
 pipeline {
   agent none
-  triggers { pollSCM('H * * * *') }
   stages {
     stage('Build') {
       agent {
@@ -12,8 +11,9 @@ pipeline {
         notifyStageStart()
         container('skaffold') {
           sh "skaffold build --file-output=image.json"
+          stash includes: 'image.json', name: 'build'
+          sh "rm image.json"
         }
-        stash includes: 'image.json', name: 'build'
       }
       post {
         success {
