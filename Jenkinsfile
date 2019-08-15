@@ -12,8 +12,8 @@ pipeline {
         notifyStageStart()
         container('skaffold') {
           sh "skaffold build --file-output=image.json"
-          stash includes: 'image.json', name: 'build'
         }
+        stash includes: 'image.json', name: 'build'
       }
       post {
         success {
@@ -35,10 +35,9 @@ pipeline {
       }
       steps {
         notifyStageStart()
+        unstash 'build'
         container('skaffold') {
-          unstash 'build'
           sh "skaffold deploy -a image.json -n ${TILLER_NAMESPACE}"
-          sh "chmod 666 image.json"
         }
       }
       post {
@@ -74,8 +73,8 @@ pipeline {
       }
       steps {
         notifyStageStart()
+        unstash 'build'
         container('skaffold') {
-          unstash 'build'
           sh "skaffold deploy -a image.json -n ${TILLER_NAMESPACE}"
         }
       }
