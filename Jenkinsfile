@@ -28,9 +28,6 @@ pipeline {
       agent {
         label "lead-toolchain-skaffold"
       }
-      when {
-          branch 'master'
-      }
       environment {
         TILLER_NAMESPACE = "${env.stagingNamespace}"
         ISTIO_DOMAIN   = "${env.stagingDomain}"
@@ -54,9 +51,6 @@ pipeline {
 
     stage ('Manual Ready Check') {
       agent none
-      when {
-        branch 'master'
-      }
       options {
         timeout(time: 30, unit: 'MINUTES')
       }
@@ -71,9 +65,6 @@ pipeline {
     stage("Deploy to Production") {
       agent {
         label "lead-toolchain-skaffold"
-      }
-      when {
-          branch 'master'
       }
       environment {
         TILLER_NAMESPACE = "${env.productionNamespace}"
