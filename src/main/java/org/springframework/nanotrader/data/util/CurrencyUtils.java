@@ -46,7 +46,6 @@ public class CurrencyUtils {
       marketSummary.setTradeStockIndexOpenAverage((tradeStockIndexOpenAverage.multiply(exchangeRate))
           .setScale(FinancialUtils.SCALE, RoundingMode.HALF_UP));
     } catch (IOException ex) {
-      ex.printStackTrace();
     }
 
     return marketSummary;
